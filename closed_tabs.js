@@ -264,24 +264,26 @@ document.addEventListener('DOMContentLoaded', () => {
           tabLi.style.justifyContent = 'space-between';
           tabLi.style.alignItems = 'center';
           tabLi.style.padding = '5px';
-          tabLi.style.transition = 'all 0.3s ease';
+          tabLi.style.transition = 'none';
           tabLi.style.paddingLeft = '20px'; // 增加左侧缩进
+          tabLi.style.border = '1px solid transparent'; // 保持高度一致，避免 hover 抖动
+          tabLi.style.boxShadow = 'none';
 
           const contentWrapper = document.createElement('div');
           contentWrapper.style.flex = '1';
 
-          const shortTitle = (tab.title || 'Untitled').slice(0, 15) + (tab.title.length > 15 ? '...' : '');
+          const titleText = tab.title || 'Untitled';
+          const MAX_TITLE_LENGTH = 35;
+          const shortTitle = titleText.length > MAX_TITLE_LENGTH 
+            ? `${titleText.slice(0, MAX_TITLE_LENGTH)}...` 
+            : titleText;
           
-          // 移除 "-" 符号，直接添加标题
-          contentWrapper.appendChild(document.createTextNode(`${shortTitle}: `));
-          
-          const link = document.createElement('a');
-          link.href = tab.url;
-          const shortUrl = tab.url.length > 40 ? tab.url.slice(0, 40) + '...' : tab.url;
-          link.textContent = shortUrl;
-          link.title = tab.url; // 添加完整URL作为悬停提示
-          link.target = '_blank';
-          contentWrapper.appendChild(link);
+          const titleLink = document.createElement('a');
+          titleLink.href = tab.url;
+          titleLink.textContent = shortTitle;
+          titleLink.title = tab.url; // 添加完整URL作为悬停提示
+          titleLink.target = '_blank';
+          contentWrapper.appendChild(titleLink);
 
           tabLi.appendChild(contentWrapper);
 
@@ -317,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
           tabLi.addEventListener('mouseleave', () => {
             deleteTabLink.style.visibility = 'hidden';
             tabLi.style.backgroundColor = 'transparent';
-            tabLi.style.border = 'none';
+            tabLi.style.border = '1px solid transparent';
             tabLi.style.boxShadow = 'none';
           });
 
