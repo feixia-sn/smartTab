@@ -273,23 +273,26 @@ document.addEventListener('DOMContentLoaded', () => {
           contentWrapper.style.flex = '1';
 
           const titleText = tab.title || 'Untitled';
-          const MAX_TITLE_LENGTH = 35;
-          const shortTitle = titleText.length > MAX_TITLE_LENGTH 
-            ? `${titleText.slice(0, MAX_TITLE_LENGTH)}...` 
-            : titleText;
           
           const titleLink = document.createElement('a');
           titleLink.href = tab.url;
-          titleLink.textContent = shortTitle;
+          titleLink.textContent = titleText;
           titleLink.title = tab.url; // 添加完整URL作为悬停提示
           titleLink.target = '_blank';
+          titleLink.style.display = 'inline-block';
+          titleLink.style.maxWidth = '100%';
+          titleLink.style.whiteSpace = 'nowrap';
+          titleLink.style.overflow = 'hidden';
+          titleLink.style.textOverflow = 'ellipsis';
           contentWrapper.appendChild(titleLink);
+          contentWrapper.style.marginRight = '10px';
 
           tabLi.appendChild(contentWrapper);
 
           const rightWrapper = document.createElement('div');
           rightWrapper.style.display = 'flex';
           rightWrapper.style.alignItems = 'center';
+          rightWrapper.style.flexShrink = '0';
 
           const timeSpan = document.createElement('span');
           timeSpan.textContent = formatTime(tab.closedAt);  // 使用 formatTime 函数
